@@ -4,6 +4,8 @@
 
 The package is rebuilt and renamed from `scf` to `fedscf`, so that its import name cannot collide with the unrelated `scf` package on PyPI.
 
+The repository moved from `PSLmodels/scf` to `PolicyEngine/fedscf`; GitHub redirects the old URLs.
+
 ### Added
 
 - A registry of the Fed's Stata files for every wave from 1989 to 2025 (summary extract, full public data set, replicate weights), keyed by wave, file and Fed release date, with the SHA-256 of each zip and Stata member, row counts and sizes. It also pins 14 superseded summary extracts, downloadable from the Internet Archive. Entries use the field names of Microcosm's source-stage manifest.

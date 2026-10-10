@@ -10,4 +10,4 @@ Planned, roughly in order:
 
 Out of scope: imputing SCF variables onto other surveys, aging, plots, and other surveys.
 
-See the [issues page](https://github.com/PSLmodels/scf/issues) to suggest other items.
+See the [issues page](https://github.com/PolicyEngine/fedscf/issues) to suggest other items.

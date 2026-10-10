@@ -45,7 +45,7 @@ except metadata.PackageNotFoundError:  # running from a source tree
     _VERSION = "0"
 
 #: The Fed's server answers 403 to urllib's default agent, so name the caller.
-USER_AGENT = f"fedscf/{_VERSION} (+https://github.com/PSLmodels/scf)"
+USER_AGENT = f"fedscf/{_VERSION} (+https://github.com/PolicyEngine/fedscf)"
 
 _CHUNK_BYTES = 1 << 20
 

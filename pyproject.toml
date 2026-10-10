@@ -31,9 +31,9 @@ dependencies = [
 ]
 
 [project.urls]
-Repository = "https://github.com/PSLmodels/scf"
-Issues = "https://github.com/PSLmodels/scf/issues"
-Changelog = "https://github.com/PSLmodels/scf/blob/main/CHANGELOG.md"
+Repository = "https://github.com/PolicyEngine/fedscf"
+Issues = "https://github.com/PolicyEngine/fedscf/issues"
+Changelog = "https://github.com/PolicyEngine/fedscf/blob/main/CHANGELOG.md"
 
 [project.scripts]
 fedscf = "fedscf.__main__:main"

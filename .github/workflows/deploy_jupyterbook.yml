@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build-and-deploy:
-    if: github.repository == 'PSLmodels/scf'
+    if: github.repository == 'PolicyEngine/fedscf'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

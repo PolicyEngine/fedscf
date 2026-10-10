@@ -11,7 +11,7 @@
         "end_header": null,
         "source": null,
         "type": "html",
-        "data": '<a href="https://github.com/PSLmodels/scf">What is fedscf?</a>',
+        "data": '<a href="https://github.com/PolicyEngine/fedscf">What is fedscf?</a>',
     },
     "core_maintainers": {
         "start_header": null,
@@ -25,21 +25,21 @@
         "end_header": null,
         "source": null,
         "type": "html",
-        "data": '<a href="https://pslmodels.github.io/scf/"></a>',
+        "data": '<a href="https://policyengine.github.io/fedscf/"></a>',
     },
     "contributor_overview": {
         "start_header": null,
         "end_header": null,
         "source": null,
         "type": "html",
-        "data": '<a href="https://github.com/PSLmodels/scf/"></a>',
+        "data": '<a href="https://github.com/PolicyEngine/fedscf/"></a>',
     },
     "user_changelog_recent": {
         "start_header": null,
         "end_header": null,
         "source": null,
         "type": "html",
-        "data": '<a href="https://github.com/PSLmodels/scf/blob/main/CHANGELOG.md"></a>',
+        "data": '<a href="https://github.com/PolicyEngine/fedscf/blob/main/CHANGELOG.md"></a>',
     },
     "link_to_webapp": {
         "start_header": null,

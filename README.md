@@ -7,7 +7,7 @@
 `fedscf` is not on PyPI yet. Install it from this repository:
 
 ```bash
-uv pip install git+https://github.com/PSLmodels/scf
+uv pip install git+https://github.com/PolicyEngine/fedscf
 ```
 
 ## Quick start
@@ -56,10 +56,10 @@ The Fed reissues files under the same names. Each time it publishes a wave, it r
 
 ```python
 fedscf.load_summary(2022, ["networth"], released="2024-04-03")  # 2022 dollars
-fedscf.load_summary(2022, ["networth"], sha256="3bb4d890...")    # the same file
+fedscf.load_summary(2022, ["networth"], sha256="3bb4d890...")  # the same file
 ```
 
-One variable is wrong in the Fed's restated extracts: for every wave but the newest in a release, `nhnfin` has been converted to the release's dollars twice. The Fed defines it as `nfin - houses`, and computing that from the same file gives the right value. `load_summary` warns when it returns `nhnfin` from an affected file; [methods](docs/methods.md) has the details.
+One variable is wrong in the Fed's restated extracts: for every wave but the newest in a release, `nhnfin` has been converted to the release's dollars twice. The Fed defines it as `nfin - houses`, and computing that from the same file gives the right value. `load_summary` warns when it returns `nhnfin` from an affected file; [methods](https://policyengine.github.io/fedscf/methods.html) has the details.
 
 Superseded vintages download from the Internet Archive's copy of the Fed's URL. A hash this package does not know is checked against the Fed's current file, so a new reissue can be pinned before `fedscf` is updated. `fedscf verify` compares the Fed's current files with the pins, and a weekly CI job runs it.
 
@@ -86,7 +86,7 @@ fedscf pin 2022 summary --released 2026-10-09  # registry entry for what the Fed
 
 ## Moving from `scf` 0.1
 
-This repository's earlier package, imported as `scf`, read only the summary extract through functions microdf no longer exports. `fedscf.load(years, columns)` replaces `scf.load`. It returns `year` and the identifier columns for every call, and reads 2022 and 2025 as well. `as_microdataframe` is not carried over.
+This repository's earlier package (in `PSLmodels/scf` until 2026-10-09), imported as `scf`, read only the summary extract through functions microdf no longer exports. `fedscf.load(years, columns)` replaces `scf.load`. It returns `year` and the identifier columns for every call, and reads 2022 and 2025 as well. `as_microdataframe` is not carried over.
 
 ## Development
 
