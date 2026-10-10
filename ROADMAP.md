@@ -1,9 +1,13 @@
-# `scf` roadmap
+# Roadmap
 
-`scf` currently provides capabilities for loading the Survey of Consumer Finances summary microdata.
-In the future, it will provide more functionality, including:
-* Functions to summarize the microdata, e.g., wealth distributions over time.
-* Charts to visualize these summaries.
-* Standard error calculations for full SCF microdata files.
+Planned, roughly in order:
 
-See the [issues page](https://github.com/MaxGhenis/scf/issues) to view and suggest other items.
+- Look up an X-variable's question text in the Fed's codebooks.
+- Convert dollar variables to a chosen year's dollars.
+- Return a microdf `MicroDataFrame` with person-level weights (#17), and wealth per adult (#18).
+- Count the people in each family (#5).
+- Impute missing student-loan debt (#10).
+
+Out of scope: imputing SCF variables onto other surveys, aging, plots, and other surveys.
+
+See the [issues page](https://github.com/PSLmodels/scf/issues) to suggest other items.

@@ -1,35 +1,22 @@
-name: Build and Deploy Jupyter Book
+name: Build and deploy Jupyter Book
+
 on:
   push:
-    branches:    
-      - main
+    branches: [main]
+
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     if: github.repository == 'PSLmodels/scf'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2  # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked --group docs
+      - run: uv run jupyter-book build docs --warningiserror --keep-going
+      - uses: JamesIves/github-pages-deploy-action@v4
         with:
-          persist-credentials: false
-
-      - name: Setup Miniconda
-        uses: conda-incubator/setup-miniconda@v2
-        with:
-          activate-environment: scf
-          environment-file: environment.yml
-          python-version: 3.9
-          auto-activate-base: false
-
-      - name: Build  # Build Jupyter Book
-        shell: bash -l {0}
-        run: |
-          pip install -e .
-          jb build docs/.
-
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages  # The branch the action should deploy to.
-          FOLDER: docs/_build/html  # The folder the action should deploy.
+          branch: gh-pages
+          folder: docs/_build/html

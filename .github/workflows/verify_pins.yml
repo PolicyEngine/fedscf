@@ -1,0 +1,22 @@
+name: Check the Fed's files against the pins
+
+# The Fed reissues SCF files under the same names. This downloads the current
+# files afresh and fails when one no longer matches its pin, which means a new
+# vintage needs adding to registry.json (`fedscf pin`).
+
+on:
+  schedule:
+    - cron: "17 9 * * 1"  # Mondays
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - run: uv run fedscf verify

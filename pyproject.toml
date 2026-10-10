@@ -1,0 +1,75 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fedscf"
+version = "1.0.0"
+description = "Verified loader for the Federal Reserve's Survey of Consumer Finances public microdata, with the Fed's standard-error method."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Max Ghenis", email = "mghenis@gmail.com" }]
+keywords = ["survey of consumer finances", "scf", "wealth", "microdata", "federal reserve"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering",
+    "Typing :: Typed",
+]
+dependencies = [
+    "numpy>=1.23",
+    "pandas>=2.0",
+    "pooch>=1.8",
+]
+
+[project.urls]
+Repository = "https://github.com/PSLmodels/scf"
+Issues = "https://github.com/PSLmodels/scf/issues"
+Changelog = "https://github.com/PSLmodels/scf/blob/main/CHANGELOG.md"
+
+[project.scripts]
+fedscf = "fedscf.__main__:main"
+
+[dependency-groups]
+dev = [
+    "hypothesis>=6.100",
+    "pytest>=8.0",
+    "ruff>=0.9",
+]
+# A second implementation of replicate-weight variance, used only by the
+# differential tests.
+differential = ["microdf-python>=1.5.11"]
+docs = ["jupyter-book>=1.0.4,<2"]
+
+[tool.uv]
+default-groups = ["dev", "differential"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fedscf"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "README.md", "CHANGELOG.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--strict-markers -ra -m 'not fed and not archive'"
+markers = [
+    "fed: reads real Federal Reserve files (downloads them on first use)",
+    "archive: fetches a superseded Fed vintage from the Internet Archive",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP", "W"]
