@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      - run: uv run ruff check
+      - run: uv run ruff format --check
+
+  test:
+    name: test (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked --python ${{ matrix.python }}
+      - run: uv run --python ${{ matrix.python }} pytest
+
+  lowest:
+    name: test (lowest supported dependencies)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      # microdf is only a second implementation for differential tests, and
+      # its own floors would hide this package's.
+      - run: uv sync --python 3.10 --resolution lowest-direct --no-group differential
+      - run: uv run --no-sync python -c "import numpy, pandas, pooch; print(numpy.__version__, pandas.__version__, pooch.__version__)"
+      - run: uv run --no-sync pytest
+
+  fed:
+    name: test against the Fed's files
+    runs-on: ubuntu-latest
+    env:
+      FEDSCF_CACHE: ~/.cache/fedscf-ci
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --locked
+      # Cache the downloaded zips (not the extracted Stata files), so a run
+      # downloads from the Fed only when the registry changes.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/fedscf-ci/**/*.zip
+          key: fed-zips-${{ hashFiles('src/fedscf/registry.json') }}
+      - run: uv run pytest -m "fed and not archive"
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv build
+      - name: Check the wheel ships its data files
+        run: |
+          unzip -l dist/*.whl | tee wheel.txt
+          grep -q "fedscf/registry.json" wheel.txt
+          grep -q "fedscf/py.typed" wheel.txt
+      - run: uvx twine check --strict dist/*
+      - name: Install the wheel alone and import it
+        run: |
+          uv venv /tmp/wheel-env
+          uv pip install --python /tmp/wheel-env dist/*.whl
+          /tmp/wheel-env/bin/python -c "import fedscf; print(fedscf.__version__, len(fedscf.artifacts()))"
+          /tmp/wheel-env/bin/fedscf list --wave 2025

@@ -1,22 +1,27 @@
 # Book settings
-title: scf documentation
+title: fedscf
 author: Max Ghenis
+only_build_toc_files: true
 
-launch_buttons:
-  colab_url: "https://colab.research.google.com"
+execute:
+  execute_notebooks: "off"
 
 repository:
-  url: https://github.com/PSLmodels/scf
+  url: https://github.com/PolicyEngine/fedscf
   branch: main
   path_to_book: docs
 
 html:
-  use_edit_page_button  : true
-  use_repository_button : true
-  use_issues_button     : true
+  use_edit_page_button: true
+  use_repository_button: true
+  use_issues_button: true
 
 sphinx:
-  extra_extensions          : ['sphinx.ext.autodoc', 'sphinx.ext.mathjax',
-                               'sphinx.ext.viewcode', 'sphinx.ext.napoleon',
-                               'alabaster']   # A list of extra extensions to load by Sphinx.
-  config                    :   # key-value pairs to directly over-ride the Sphinx configuration
+  extra_extensions:
+    - sphinx.ext.autodoc
+    - sphinx.ext.napoleon
+    - sphinx.ext.viewcode
+  config:
+    autodoc_member_order: bysource
+    autodoc_typehints: description
+    napoleon_google_docstring: true
